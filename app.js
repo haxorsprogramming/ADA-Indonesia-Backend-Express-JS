@@ -3,9 +3,12 @@ const mysql = require('mysql');
 const app = express();
 const port = 7001;
 const bodyParser = require("body-parser");
+const jwt = require('jsonwebtoken');
+
 require('dotenv').config();
 
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({extended:true}));
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -47,6 +50,24 @@ app.get("/post/:slug/detail", (req, res) => {
         var dr = {dataPost : dataPost}
         res.json(dr);
     });
+});
+
+app.post("/auth/token/create", (req, res) => {
+    let username = req.body.username;
+    var token = jwt.sign({ username : username }, process.env.TOKEN_SECRET);
+    let dr = {token:token}
+    res.json(dr);
+});
+
+app.post("/post/data/add", (req, res) => {
+    let token = req.body.token;
+    try {
+        var decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    } catch(err) {
+        console.log("Error jwt");
+    }
+    let dr = { decoded : decoded}
+    res.json(dr);
 });
 
 app.listen(port, () => {
