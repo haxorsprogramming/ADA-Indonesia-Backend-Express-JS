@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const app = express();
 const port = 7001;
 const bodyParser = require("body-parser");
+require('dotenv').config();
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(function(req, res, next) {
@@ -12,10 +13,10 @@ app.use(function(req, res, next) {
 });
 
 const conn = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'dbs_ada_indonesia'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
   });
 
 app.get("/", (req, res) => {
