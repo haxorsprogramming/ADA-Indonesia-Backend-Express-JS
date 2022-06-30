@@ -5,7 +5,7 @@ const port = process.env.PORT;
 const bodyParser = require("body-parser");
 const jwt = require('jsonwebtoken');
 const postLib = require("./post-lib.js");
-const lib = require("./lib.js");
+const authLib = require("./auth-lib.js");
 var fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 
@@ -21,8 +21,11 @@ app.get("/", (req, res) => {
 });
 
 app.post("/auth/token/create", (req, res) => {
-    let username = req.body.username;
-    lib.createToken(req, res, username);
+    authLib.createToken(req, res, username);
+});
+
+app.post("/auth/user/login", (req, res) => {
+    authLib.loginUserProses(req, res);
 });
 
 app.get("/post/data/all", (req, res) => {
