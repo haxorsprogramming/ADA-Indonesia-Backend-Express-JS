@@ -18,8 +18,11 @@ function createToken(req, res) {
 }
 
 function loginUserProses(req, res) {
+  console.log("Start login proses ...");
+  
   let username = req.body.username;
   let password = req.body.password;
+
   // cek username
   let sql = `SELECT * FROM tbl_user WHERE username='${username}';`;
   conn.query(sql, function (err, result, fields) {
@@ -32,17 +35,16 @@ function loginUserProses(req, res) {
         if (err) {
           throw err;
         } else if (!isMatch) {
-          // console.log("Password doesn't match!");
-          let dr = { password: 'password tidak cocok' };
+          let dr = { status : 'wrong_password' };
           res.json(dr);
         } else {
-          // console.log("pass");
-          let dr = { password: 'password cocok' };
+          var token = jwt.sign({ username: username }, process.env.TOKEN_SECRET);
+          let dr = { status : 'success' , 'token' : token };
           res.json(dr);
         }
       });
     } else {
-      let dr = { status: "tidak ada user" };
+      let dr = { status: "no_user" };
       res.json(dr);
     }
   });
