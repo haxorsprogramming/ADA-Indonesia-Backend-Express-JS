@@ -42,6 +42,7 @@ function addPostingan(req, res) {
     let shortDeks = req.body.short_deks;
     let longDeks = req.body.long_deks;
     let coverHomepage = req.body.cover_homepage;
+    let kategori = req.body.kategori;
     // let img = req.body.img_feature;
     let writer = req.body.writer;
     let fileImg = req.body.img;
@@ -51,7 +52,7 @@ function addPostingan(req, res) {
     fs.writeFile(filePath, base64Image, { encoding: "base64" }, function (err) {
       // res.sendStatus(200);
       let imgPath = baseUrl + `file/upload/img/${kdFile}.png`;
-      var sql = `INSERT INTO tbl_post (judul, slug, short_deks, long_deks, cover_homepage, img_feature, writer) VALUES('${judul}', '${slug}','${shortDeks}','${longDeks}','${coverHomepage}','${imgPath}','${writer}');`;
+      var sql = `INSERT INTO tbl_post (judul, slug, short_deks, long_deks, cover_homepage, img_feature, writer, kategori) VALUES('${judul}', '${slug}','${shortDeks}','${longDeks}','${coverHomepage}','${imgPath}','${writer}', '${kategori}');`;
       conn.query(sql, function (err, result) {
         if (err) throw err;
         let dr = { status: "SUCCESS" };
@@ -64,4 +65,15 @@ function addPostingan(req, res) {
   }
 }
 
-module.exports = { addPostingan, allPost, detailPost };
+function deletePostingan(req, res){
+  let idPost = req.body.idPost;
+  let sql = `DELETE FROM tbl_post WHERE id='${idPost}';`;
+  conn.query(sql, function (err, result) {
+    if (err) throw err;
+    // console.log("Number of records deleted: " + result.affectedRows);
+    let dr = { status: "SUCCESS" };
+    res.json(dr);
+  });
+}
+
+module.exports = { addPostingan, allPost, detailPost, deletePostingan };

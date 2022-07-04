@@ -41,16 +41,19 @@ app.post("/post/data/add", (req, res) => {
     postLib.addPostingan(req, res);
 });
 
-app.post("/test/base64", (req, res) => {
-    let fileImg = req.body.img;
-    let base64Image = fileImg.split(';base64,').pop();
-    let kdFile = uuidv4();
-    let filePath = `file/${kdFile}.png`; 
-    fs.writeFile(filePath, base64Image, {encoding: 'base64'}, function(err) {
-        res.sendStatus(200);
-    });
-    
+app.post("/post/delete/process", (req, res) => {
+    postLib.deletePostingan(req, res);
 });
+
+// app.post("/test/base64", (req, res) => {
+//     let fileImg = req.body.img;
+//     let base64Image = fileImg.split(';base64,').pop();
+//     let kdFile = uuidv4();
+//     let filePath = `file/${kdFile}.png`; 
+//     fs.writeFile(filePath, base64Image, {encoding: 'base64'}, function(err) {
+//         res.sendStatus(200);
+//     });
+// });
 
 app.listen(port, () => {
     console.log(`Aplikasi berjalan di port ${port}`);
