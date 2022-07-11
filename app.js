@@ -6,6 +6,8 @@ const bodyParser = require("body-parser");
 const jwt = require('jsonwebtoken');
 const postLib = require("./post-lib.js");
 const authLib = require("./auth-lib.js");
+const kategoriLib = require("./kategori-lib.js");
+
 var fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 
@@ -45,15 +47,13 @@ app.post("/post/delete/process", (req, res) => {
     postLib.deletePostingan(req, res);
 });
 
-// app.post("/test/base64", (req, res) => {
-//     let fileImg = req.body.img;
-//     let base64Image = fileImg.split(';base64,').pop();
-//     let kdFile = uuidv4();
-//     let filePath = `file/${kdFile}.png`; 
-//     fs.writeFile(filePath, base64Image, {encoding: 'base64'}, function(err) {
-//         res.sendStatus(200);
-//     });
-// });
+app.get("/kategori/data/all", (req, res) => {
+    kategoriLib.allKategori(req, res);
+});
+
+app.get("/post/popular/first", (req, res) => {
+    postLib.popularPost(req, res);
+});
 
 app.listen(port, () => {
     console.log(`Aplikasi berjalan di port ${port}`);

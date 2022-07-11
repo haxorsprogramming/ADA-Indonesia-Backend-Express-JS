@@ -76,4 +76,14 @@ function deletePostingan(req, res){
   });
 }
 
-module.exports = { addPostingan, allPost, detailPost, deletePostingan };
+function popularPost(req, res){
+  let sql = "SELECT * FROM tbl_post ORDER BY id DESC LIMIT 0, 1";
+  conn.query(sql, function (err, result, fields) {
+    if (err) throw err;
+    dataPost = result;
+    var dr = { dataPost: dataPost };
+    res.json(dr);
+  });
+}
+
+module.exports = { addPostingan, allPost, detailPost, deletePostingan, popularPost };
