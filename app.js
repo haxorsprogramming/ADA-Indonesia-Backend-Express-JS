@@ -55,6 +55,14 @@ app.get("/post/popular/first", (req, res) => {
     postLib.popularPost(req, res);
 });
 
+app.get("/post/recent", (req, res) => {
+    postLib.recentPost(req, res);
+});
+
+app.get("/kategori/:kategori", (req, res) => {
+    postLib.getByKategori(req, res);
+});
+
 app.listen(port, () => {
     console.log(`Aplikasi berjalan di port ${port}`);
 });

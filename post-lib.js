@@ -86,4 +86,25 @@ function popularPost(req, res){
   });
 }
 
-module.exports = { addPostingan, allPost, detailPost, deletePostingan, popularPost };
+function recentPost(req, res){
+  let sql = "SELECT * FROM tbl_post ORDER BY id DESC LIMIT 0, 3";
+  conn.query(sql, function (err, result, fields) {
+    if (err) throw err;
+    dataPost = result;
+    var dr = { dataPost: dataPost };
+    res.json(dr);
+  });
+}
+
+function getByKategori(req, res){
+  let kategori = req.params.kategori;
+  let sql = `SELECT * FROM tbl_post WHERE kategori='${kategori}';`;
+  conn.query(sql, function (err, result, fields) {
+    if (err) throw err;
+    dataPost = result;
+    var dr = { dataPost: dataPost };
+    res.json(dr);
+  });
+}
+
+module.exports = { addPostingan, allPost, detailPost, deletePostingan, popularPost, recentPost, getByKategori };

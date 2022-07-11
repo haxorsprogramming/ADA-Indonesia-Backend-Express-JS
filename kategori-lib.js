@@ -14,12 +14,12 @@ const conn = mysql.createConnection({
 var baseUrl = process.env.BASE_URL;
 
 function allKategori(req, res) {
-    let sql = "SELECT * FROM tbl_kategori;";
-    conn.query(sql, function (err, result, fields) {
-      if (err) throw err;
-      let dr = { kategori : result };
-      res.json(dr);
-    });
-  }
+  let sql = "SELECT * FROM tbl_kategori;";
+  conn.query(sql, function (err, result, fields) {
+    if (err) throw err;
+    let dr = { kategori: result };
+    res.json(dr);
+  });
+}
 
 module.exports = { allKategori };
